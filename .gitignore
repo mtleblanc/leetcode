@@ -1,2 +1,6 @@
 bin/
 pkg/
+target/
+/lib
+pyvenv.cfg
+

@@ -1,0 +1,51 @@
+query questionTitle($titleSlug: String!) {
+  question(titleSlug: $titleSlug) {
+    questionId
+    questionFrontendId
+    title
+    titleSlug
+    isPaidOnly
+    difficulty
+    likes
+    dislikes
+    categoryTitle
+  }
+}
+
+query questionContent($titleSlug: String!) {
+  question(titleSlug: $titleSlug) {
+    content
+    mysqlSchemas
+    dataSchemas
+  }
+}
+
+query consolePanelConfig($titleSlug: String!) {
+  question(titleSlug: $titleSlug) {
+    questionId
+    questionFrontendId
+    questionTitle
+    enableDebugger
+    enableRunCode
+    enableSubmit
+    enableTestMode
+    exampleTestcaseList
+    metaData
+  }
+}
+
+query questionEditorData($titleSlug: String!) {
+  question(titleSlug: $titleSlug) {
+    questionId
+    questionFrontendId
+    codeSnippets {
+      lang
+      langSlug
+      code
+    }
+    envInfo
+    enableRunCode
+    hasFrontendPreview
+    frontendPreviews
+  }
+}
