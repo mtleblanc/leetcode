@@ -2,7 +2,7 @@ impl Solution {
     fn i_sqrt(c: i32) -> i32 {
         (c as f64).sqrt() as i32
     }
-    pub fn judge_square_sum(mut c: i32) -> bool {
+    pub fn judge_square_sum(c: i32) -> bool {
         let mut b = Self::i_sqrt(c);
         let mut a = 0;
         while a <= b {
