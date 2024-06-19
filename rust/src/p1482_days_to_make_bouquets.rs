@@ -38,7 +38,7 @@ impl Solution {
     }
 }
 
-struct Solution {}
+pub struct Solution {}
 
 #[cfg(test)]
 mod tests {

@@ -1,6 +1,13 @@
 impl Solution {
-    pub fn max_profit_assignment(difficulty: Vec<i32>, profit: Vec<i32>, mut worker: Vec<i32>) -> i32 {
-        let mut jobs = difficulty.into_iter().zip(profit.into_iter()).collect::<Vec<_>>();
+    pub fn max_profit_assignment(
+        difficulty: Vec<i32>,
+        profit: Vec<i32>,
+        mut worker: Vec<i32>,
+    ) -> i32 {
+        let mut jobs = difficulty
+            .into_iter()
+            .zip(profit.into_iter())
+            .collect::<Vec<_>>();
         jobs.sort();
         worker.sort();
         let mut profit = 0;
@@ -22,7 +29,7 @@ impl Solution {
     }
 }
 
-struct Solution {}
+pub struct Solution {}
 
 #[cfg(test)]
 mod tests {
