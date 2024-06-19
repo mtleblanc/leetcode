@@ -1,6 +1,7 @@
 mod p330_patching_array;
 mod p633_sum_of_squares;
 mod p826_most_profit_assigning_work;
+mod p1482_days_to_make_bouquets;
 
 fn main() {
     assert_eq!(p330_patching_array::Solution::min_patches(vec![1, 3], 6), 1);
