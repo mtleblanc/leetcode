@@ -4,31 +4,18 @@ type Node = Option<Rc<RefCell<TreeNode>>>;
 impl Solution {
     /**
      * Just a simple in (reverse) order traversal updating in place
-     *
-     * Some care is needed to not double count with the sum being passed in
-     * and returned.  We can either just add the value and use assignments
-     * with the subtrees, or we can add the subtrees but return only the increment
      */
-    fn bst_to_gst_with_presum(root: Node, mut sum: i32) -> i32 {
-        match root.as_ref() {
-            Some(tn) => {
-                // Oof this is a lot of work to get around the borrow checker, I'm sure there are
-                // shortcuts since the Rc<RefCell<_>> pattern is common
-                sum = Self::bst_to_gst_with_presum(tn.borrow().right.as_ref().map(Rc::clone), sum);
-                let val = tn.borrow().val;
-                println!("Visiting node {}, sum so far {}", val, sum);
-
-                tn.borrow_mut().val += sum;
-                sum += val;
-                sum = Self::bst_to_gst_with_presum(tn.borrow().left.as_ref().map(Rc::clone), sum);
-                println!("Moving to parent of {}, sum {}", val, sum);
-                sum
-            }
-            None => sum,
+    fn bst_to_gst_with_presum(root: &Node, sum: &mut i32) {
+        if let Some(tn) = root.as_ref() {
+            let mut n = tn.borrow_mut();
+            Self::bst_to_gst_with_presum(&n.right, sum);
+            n.val += *sum;
+            *sum = n.val;
+            Self::bst_to_gst_with_presum(&n.left, sum);
         }
     }
     pub fn bst_to_gst(root: Option<Rc<RefCell<TreeNode>>>) -> Option<Rc<RefCell<TreeNode>>> {
-        Self::bst_to_gst_with_presum(root.as_ref().map(|x| x.clone()), 0);
+        Self::bst_to_gst_with_presum(&root, &mut 0);
         root
     }
 }
