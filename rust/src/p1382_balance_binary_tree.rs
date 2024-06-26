@@ -1,18 +1,17 @@
 use std::cell::RefCell;
-use std::mem;
 use std::rc::Rc;
 type Node = Option<Rc<RefCell<TreeNode>>>;
 /**
  * Flatten the tree into an array by doing an in-order traversal, then build a balanced tree directly
  */
 impl Solution {
-    // Consumes root, so we need the mem::replace.  Could also use &Node and leave in tact
+    // Consumes root.  Could also use &Node and leave in tact
     fn to_sorted(root: Node, order: &mut Vec<i32>) {
         if let Some(node_ref) = root {
             let mut tn = node_ref.borrow_mut();
-            Self::to_sorted(mem::replace(&mut tn.left, None), order);
+            Self::to_sorted(tn.left.take(), order);
             order.push(tn.val);
-            Self::to_sorted(mem::replace(&mut tn.right, None), order);
+            Self::to_sorted(tn.right.take(), order);
         }
     }
 
@@ -22,10 +21,11 @@ impl Solution {
             return None;
         }
         let pivot = sorted.len() / 2;
-        let mut node = TreeNode::new(sorted[pivot]);
-        node.left = Self::from_sorted(&sorted[..pivot]);
-        node.right = Self::from_sorted(&sorted[1 + pivot..]);
-        Some(Rc::new(RefCell::new(node)))
+        Some(Rc::new(RefCell::new(TreeNode {
+            val: sorted[pivot],
+            left: Self::from_sorted(&sorted[..pivot]),
+            right: Self::from_sorted(&sorted[1 + pivot..]),
+        })))
     }
 
     pub fn balance_bst(root: Node) -> Node {
