@@ -9,6 +9,7 @@ mod p1382_balance_binary_tree;
 mod p1482_days_to_make_bouquets;
 mod p1552_minimum_magnetic_force;
 mod p1791_find_centre_of_star;
+mod p2285_maximum_total_importance_of_roads;
 
 pub use p330_patching_array::Solution as p330_solution;
 pub use p633_sum_of_squares::Solution as p633_solution;
@@ -21,3 +22,4 @@ pub use p1482_days_to_make_bouquets::Solution as p1486_solution;
 pub use p1552_minimum_magnetic_force::Solution as p1552_solution;
 pub use p1248_nice_subarrays::Solution as p1248_solution;
 pub use p1791_find_centre_of_star::Solution as p1791_solution;
+pub use p2285_maximum_total_importance_of_roads::Solution as p2285_solution;
