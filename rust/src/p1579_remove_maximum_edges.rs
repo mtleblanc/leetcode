@@ -1,7 +1,111 @@
 use std::collections::HashSet;
 
+#[derive(Clone)]
+struct UnionFind {
+    vertices: Vec<usize>,
+    // sizes: Vec<usize>,
+    components: usize,
+}
+
+impl UnionFind {
+    pub fn new(n: usize) -> Self {
+        UnionFind {
+            vertices: (0..n).collect(),
+            // sizes: vec![1; n],
+            components: n,
+        }
+    }
+
+    pub fn find(&mut self, mut a: usize) -> usize {
+        let mut next = self.vertices[a];
+        while next != a {
+            let grandparent = self.vertices[next];
+            self.vertices[a] = grandparent;
+            a = next;
+            next = grandparent;
+        }
+        next
+    }
+
+    /*
+     * The size metadata does not improve speed over the test set
+     */
+    pub fn union(&mut self, a: usize, b: usize) -> &Self {
+        let a_name = self.find(a);
+        let b_name = self.find(b);
+        if a_name != b_name {
+            // if self.sizes[a_name] >= self.sizes[b_name] {
+            self.vertices[b_name] = a_name;
+            self.components -= 1;
+            // self.sizes[a_name] += self.sizes[b_name];
+            // } else {
+            //     self.vertices[a_name] = b_name;
+            //     self.components -= 1;
+            //     self.sizes[b_name] += self.sizes[a_name];
+            // }
+        }
+        self
+    }
+}
+
 impl Solution {
+    /**
+     * Build connected components using a UnionFind structure, which keeps track of which disjoint
+     * set each element is a part of by storing a pointer to a parent in the same set, forming a
+     * directed graph whose only cycles are 1 cycles on a representative of each disjoint set
+     *
+     * A traversable graph with cycles can remove an edge from a cycle and still be traversable,
+     * so we can remove edges until both the Type1+Type3 and Type2+Type3 graphs are trees.  A
+     * tree on n vertices has n-1 edges.  Similarly a forest with n vertices and m components has
+     * n-m edges.  To remove the maximum number of edges, we should remove as few Type3 edges as possible.
+     *
+     * So the overall logic is
+     *   1) Determine the number of Type3 edges we must remove to prevent cycles by finding the number of
+     *      components in the Type3 graph
+     *   2) Verify that the Type1+Type3 and Type2+Type3 graphs are connected, else return -1
+     *
+     * There's a few approaches for handling the 3 graphs we must consider, such as making the Type3 UnionFind,
+     * cloning it, and then extending the 2 copies into the other 2 graphs, or making a UnionFind for each type
+     * then iterating through the Type3 UnionFind and unioning each vertex in the Type1/2 UnionFinds with its
+     * Type3 representative.  It seemed simplest to just build all 3 directly.  There are cases where each
+     * approach is fastest, but it's a linear cost no matter what.
+     */
     pub fn max_num_edges_to_remove(n: i32, edges: Vec<Vec<i32>>) -> i32 {
+        let n = n as usize;
+        let mut both = UnionFind::new(n);
+        let mut alice = UnionFind::new(n);
+        let mut bob = UnionFind::new(n);
+        let mut counts = vec![0; 3];
+        for edge in edges {
+            let a = edge[1] as usize - 1;
+            let b = edge[2] as usize - 1;
+            counts[edge[0] as usize - 1] += 1;
+            match edge[0] {
+                1 => {
+                    alice.union(a, b);
+                }
+                2 => {
+                    bob.union(a, b);
+                }
+                _ => {
+                    both.union(a, b);
+                    alice.union(a, b);
+                    bob.union(a, b);
+                }
+            }
+        }
+        if bob.components > 1 || alice.components > 1 {
+            return -1;
+        }
+        let needed_both = n - both.components;
+        let needed_alice_or_bob = n - 1 - needed_both;
+        let excess_both = counts[2] - needed_both;
+        let excess_alice = counts[0] - needed_alice_or_bob;
+        let excess_bob = counts[1] - needed_alice_or_bob;
+        (excess_alice + excess_bob + excess_both) as i32
+    }
+
+    pub fn max_num_edges_to_remove_bfs(n: i32, edges: Vec<Vec<i32>>) -> i32 {
         let n = n as usize;
         let mut both = vec![Vec::new(); n];
         let mut alice = vec![Vec::new(); n];
@@ -109,9 +213,9 @@ impl Solution {
         }
 
         let n = n as i32;
-        ((both_count - required_edges)
+        (both_count - required_edges)
             + (alice_count + required_edges - n + 1)
-            + (bob_count + required_edges - n + 1))
+            + (bob_count + required_edges - n + 1)
     }
 }
 
