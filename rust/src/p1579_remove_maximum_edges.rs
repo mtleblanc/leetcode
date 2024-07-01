@@ -25,7 +25,7 @@ impl UnionFind {
         }
     }
 
-    pub fn union(&mut self, a: usize, b: usize) -> &Self {
+    pub fn union(&mut self, a: usize, b: usize) -> &mut Self {
         let mut a_name = self.find(a);
         let mut b_name = self.find(b);
         if a_name != b_name {
@@ -67,11 +67,10 @@ impl Solution {
         let mut both = UnionFind::new(n);
         let mut alice = UnionFind::new(n);
         let mut bob = UnionFind::new(n);
-        let mut counts = vec![0; 3];
+        let count = edges.len();
         for edge in edges {
             let a = edge[1] as usize - 1;
             let b = edge[2] as usize - 1;
-            counts[edge[0] as usize - 1] += 1;
             match edge[0] {
                 1 => {
                     alice.union(a, b);
@@ -89,12 +88,19 @@ impl Solution {
         if bob.components > 1 || alice.components > 1 {
             return -1;
         }
-        let needed_both = n - both.components;
-        let needed_alice_or_bob = n - 1 - needed_both;
-        let excess_both = counts[2] - needed_both;
-        let excess_alice = counts[0] - needed_alice_or_bob;
-        let excess_bob = counts[1] - needed_alice_or_bob;
-        (excess_alice + excess_bob + excess_both) as i32
+        // Term by term calculation.  Here counts[i] was the number of edges of type i+1
+        // let needed_both = n - both.components;
+        // let needed_alice_or_bob = n - 1 - needed_both;
+        // let excess_both = counts[2] - needed_both;
+        // let excess_alice = counts[0] - needed_alice_or_bob;
+        // let excess_bob = counts[1] - needed_alice_or_bob;
+        // (excess_alice + excess_bob + excess_both) as i32
+        //
+        // But this simplifies to
+        // counts[0] + counts[1] + counts[2] + 2 - n - both.components
+        // so no need for separate counts
+
+        (count + 2 - n - both.components) as i32
     }
 
     pub fn max_num_edges_to_remove_bfs(n: i32, edges: Vec<Vec<i32>>) -> i32 {
