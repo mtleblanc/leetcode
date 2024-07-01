@@ -1,48 +1,40 @@
-use std::collections::HashSet;
-
-#[derive(Clone)]
 struct UnionFind {
-    vertices: Vec<usize>,
-    // sizes: Vec<usize>,
+    parent: Vec<usize>,
+    size: Vec<usize>,
     components: usize,
 }
 
 impl UnionFind {
     pub fn new(n: usize) -> Self {
         UnionFind {
-            vertices: (0..n).collect(),
-            // sizes: vec![1; n],
+            parent: (0..n).collect(),
+            size: vec![1; n],
             components: n,
         }
     }
 
     pub fn find(&mut self, mut a: usize) -> usize {
-        let mut next = self.vertices[a];
-        while next != a {
-            let grandparent = self.vertices[next];
-            self.vertices[a] = grandparent;
-            a = next;
-            next = grandparent;
+        loop {
+            let p = self.parent[a];
+            let gp = self.parent[p];
+            if gp == p {
+                return p;
+            }
+            self.parent[a] = gp;
+            a = gp;
         }
-        next
     }
 
-    /*
-     * The size metadata does not improve speed over the test set
-     */
     pub fn union(&mut self, a: usize, b: usize) -> &Self {
-        let a_name = self.find(a);
-        let b_name = self.find(b);
+        let mut a_name = self.find(a);
+        let mut b_name = self.find(b);
         if a_name != b_name {
-            // if self.sizes[a_name] >= self.sizes[b_name] {
-            self.vertices[b_name] = a_name;
             self.components -= 1;
-            // self.sizes[a_name] += self.sizes[b_name];
-            // } else {
-            //     self.vertices[a_name] = b_name;
-            //     self.components -= 1;
-            //     self.sizes[b_name] += self.sizes[a_name];
-            // }
+            if self.size[a_name] < self.size[b_name] {
+                std::mem::swap(&mut a_name, &mut b_name);
+            }
+            self.parent[b_name] = a_name;
+            self.size[a_name] += self.size[b_name];
         }
         self
     }
@@ -106,6 +98,7 @@ impl Solution {
     }
 
     pub fn max_num_edges_to_remove_bfs(n: i32, edges: Vec<Vec<i32>>) -> i32 {
+        use std::collections::HashSet;
         let n = n as usize;
         let mut both = vec![Vec::new(); n];
         let mut alice = vec![Vec::new(); n];
