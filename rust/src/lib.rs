@@ -1,4 +1,5 @@
 mod p330_patching_array;
+mod p350_intesecting_arrays_ii;
 mod p633_sum_of_squares;
 mod p826_most_profit_assigning_work;
 mod p995_minimum_k_bit_flips;
@@ -15,6 +16,7 @@ mod p2192_all_ancestors;
 mod p2285_maximum_total_importance_of_roads;
 
 pub use p330_patching_array::Solution as p330_solution;
+pub use p350_intesecting_arrays_ii::Solution as p350_solution;
 pub use p633_sum_of_squares::Solution as p633_solution;
 pub use p826_most_profit_assigning_work::Solution as p826_solution;
 pub use p995_minimum_k_bit_flips::Solution as p995_solution;
