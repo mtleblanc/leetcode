@@ -17,6 +17,7 @@ mod p2058_distance_between_critical;
 mod p2181_merge_between_zeros;
 mod p2192_all_ancestors;
 mod p2285_maximum_total_importance_of_roads;
+mod p2582_pass_the_pillow;
 
 pub use p330_patching_array::Solution as p330_solution;
 pub use p350_intesecting_arrays_ii::Solution as p350_solution;
@@ -37,3 +38,4 @@ pub use p2058_distance_between_critical::Solution as p2058_solution;
 pub use p2181_merge_between_zeros::Solution as p2181_solution;
 pub use p2192_all_ancestors::Solution as p2192_solution;
 pub use p2285_maximum_total_importance_of_roads::Solution as p2285_solution;
+pub use p2582_pass_the_pillow::Solution as p2582_solution;
