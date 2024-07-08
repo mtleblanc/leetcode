@@ -1,3 +1,4 @@
+mod p174_dungeon_game;
 mod p330_patching_array;
 mod p350_intesecting_arrays_ii;
 mod p503_next_greater_ii;
@@ -30,6 +31,7 @@ mod p2582_pass_the_pillow;
 
 mod tree;
 
+pub use p174_dungeon_game::Solution as p174_solution;
 pub use p330_patching_array::Solution as p330_solution;
 pub use p350_intesecting_arrays_ii::Solution as p350_solution;
 pub use p503_next_greater_ii::Solution as p503_solution;
