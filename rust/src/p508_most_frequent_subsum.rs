@@ -1,32 +1,9 @@
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-}
-
-pub struct Solution {}
-
-use std::cell::RefCell;
 use std::collections::HashMap;
-use std::rc::Rc;
 
-type Tree = Option<Rc<RefCell<TreeNode>>>;
+use crate::tree::Tree;
 /*
  * Just a dfs calculating subtree sums and tracking them in a map
- * 
+ *
  * Once the map is calculated, the max elements are extracted in
  * 2 passes
  */
@@ -54,3 +31,5 @@ impl Solution {
             .collect()
     }
 }
+
+pub struct Solution {}

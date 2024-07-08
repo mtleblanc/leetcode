@@ -26,6 +26,8 @@ mod p2192_all_ancestors;
 mod p2285_maximum_total_importance_of_roads;
 mod p2582_pass_the_pillow;
 
+mod tree;
+
 pub use p330_patching_array::Solution as p330_solution;
 pub use p350_intesecting_arrays_ii::Solution as p350_solution;
 pub use p503_next_greater_ii::Solution as p503_solution;

@@ -1,11 +1,13 @@
+use crate::tree::{Tree, TreeNode};
+
 use std::cell::RefCell;
 use std::rc::Rc;
-type Node = Option<Rc<RefCell<TreeNode>>>;
+
 impl Solution {
     /**
      * Just a simple in (reverse) order traversal updating in place
      */
-    fn bst_to_gst_with_presum(root: &Node, sum: &mut i32) {
+    fn bst_to_gst_with_presum(root: &Tree, sum: &mut i32) {
         if let Some(tn) = root.as_ref() {
             let mut n = tn.borrow_mut();
             Self::bst_to_gst_with_presum(&n.right, sum);
@@ -21,43 +23,6 @@ impl Solution {
 }
 
 pub struct Solution {}
-
-// Definition for a binary tree node.
-#[derive(Debug, PartialEq, Eq)]
-pub struct TreeNode {
-    pub val: i32,
-    pub left: Option<Rc<RefCell<TreeNode>>>,
-    pub right: Option<Rc<RefCell<TreeNode>>>,
-}
-
-impl TreeNode {
-    #[inline]
-    pub fn new(val: i32) -> Self {
-        TreeNode {
-            val,
-            left: None,
-            right: None,
-        }
-    }
-
-    fn from_array_indexed(array: &Vec<i32>, index: usize) -> Option<Rc<RefCell<Self>>> {
-        if index >= array.len() {
-            return None;
-        }
-        let val = array[index];
-        if val < 0 {
-            return None;
-        }
-        let mut node = Self::new(val);
-        node.left = Self::from_array_indexed(&array, index * 2 + 1);
-        node.right = Self::from_array_indexed(&array, index * 2 + 2);
-        Some(Rc::new(RefCell::new(node)))
-    }
-
-    pub fn from_array(array: Vec<i32>) -> Option<Rc<RefCell<Self>>> {
-        Self::from_array_indexed(&array, 0)
-    }
-}
 
 #[cfg(test)]
 pub mod tests {
