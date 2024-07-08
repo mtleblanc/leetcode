@@ -1,6 +1,7 @@
 mod p330_patching_array;
 mod p350_intesecting_arrays_ii;
 mod p503_next_greater_ii;
+mod p508_most_frequent_subsum;
 mod p517_super_washing_machines;
 mod p526_beautiful_arrangement;
 mod p633_sum_of_squares;
@@ -27,6 +28,7 @@ mod p2582_pass_the_pillow;
 pub use p330_patching_array::Solution as p330_solution;
 pub use p350_intesecting_arrays_ii::Solution as p350_solution;
 pub use p503_next_greater_ii::Solution as p503_solution;
+pub use p508_most_frequent_subsum::Solution as p508_solution;
 pub use p517_super_washing_machines::Solution as p517_solution;
 pub use p526_beautiful_arrangement::Solution as p526_solution;
 pub use p633_sum_of_squares::Solution as p633_solution;
