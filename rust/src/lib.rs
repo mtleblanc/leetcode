@@ -1,5 +1,6 @@
 mod p330_patching_array;
 mod p350_intesecting_arrays_ii;
+mod p503_next_greater_ii;
 mod p633_sum_of_squares;
 mod p826_most_profit_assigning_work;
 mod p995_minimum_k_bit_flips;
@@ -23,6 +24,7 @@ mod p2582_pass_the_pillow;
 
 pub use p330_patching_array::Solution as p330_solution;
 pub use p350_intesecting_arrays_ii::Solution as p350_solution;
+pub use p503_next_greater_ii::Solution as p503_solution;
 pub use p633_sum_of_squares::Solution as p633_solution;
 pub use p826_most_profit_assigning_work::Solution as p826_solution;
 pub use p995_minimum_k_bit_flips::Solution as p995_solution;
